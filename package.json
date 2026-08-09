@@ -1,0 +1,24 @@
+{
+  "name": "lan_screen_share",
+  "version": "1.0.0",
+  "description": "LAN screen share: WebRTC-based PC-to-iPad screen streaming over LAN",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhfem05-star/lan-screen-share.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhfem05-star/lan-screen-share/issues"
+  },
+  "homepage": "https://github.com/zhfem05-star/lan-screen-share#readme",
+  "dependencies": {
+    "ws": "^8.21.3"
+  }
+}

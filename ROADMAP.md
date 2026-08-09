@@ -4,10 +4,21 @@
 
 요구사항/아키텍처 결정 배경은 [REQUIREMENTS.md](REQUIREMENTS.md) 참고.
 
-## Phase 0 — 프로젝트 기본 구조 세팅
-1. `package.json` 초기화, Node.js 프로젝트 구조 생성
-2. 디렉터리 구조 설계: `/server` (시그널링 서버 + 정적 페이지 호스팅), `/public` (PC 송출 페이지, iPad 수신 페이지, 공용 JS)
-3. 로컬 LAN IP 확인 방법 정리 (PC의 `ipconfig`로 LAN IP 확인, 방화벽에서 사용할 포트 인바운드 허용)
+## 진행 현황 (최종 업데이트: 2026-08-09)
+
+- **완료**: Phase 0 전체
+- **다음 할 일**: Phase 1 (시그널링 서버 구현)
+- **주의 — 아직 커밋 안 됨**: Phase 0 변경사항(`package.json`, `.gitignore`, `/server`, `/public` 등)이 로컬 워킹 디렉터리에만 있고 git에 커밋되지 않은 상태. 다음 세션 시작 시 `git status`로 먼저 확인할 것
+- `server/index.js`는 아직 **빈 스텁**(주석 한 줄)임 — 실제 시그널링 서버 로직은 Phase 1에서 작성 예정
+- `ws` 패키지는 Phase 0 진행 중 미리 설치해둠 (Phase 1 item 1의 라이브러리 설치 부분은 선행 완료된 상태, 코드 구현만 남음)
+- 서버 포트 번호 아직 미정 — Phase 1에서 코드 작성 시 정하고, 그 다음에 README.md에 적어둔 `netsh advfirewall` 방화벽 인바운드 규칙을 해당 포트로 **직접 실행**해야 함 (아직 실행 안 함)
+- 개발 환경은 WSL 미사용, **네이티브 Windows**로 진행 결정 (이유: WSL2는 NAT 기반이라 iPad에서 LAN IP로 직접 접속 안 됨 + Phase 2 갈 경우 DXGI API가 애초에 Windows 전용이라 일관성 유지)
+- 이 PC의 LAN IP: `x.x.x.x` (이더넷 어댑터 기준, 확인은 `ipconfig`. VMware 가상 어댑터의 IP는 무시)
+
+## Phase 0 — 프로젝트 기본 구조 세팅 (완료)
+1. [x] `package.json` 초기화, Node.js 프로젝트 구조 생성
+2. [x] 디렉터리 구조 설계: `/server` (시그널링 서버 + 정적 페이지 호스팅), `/public` (PC 송출 페이지, iPad 수신 페이지, 공용 JS)
+3. [x] 로컬 LAN IP 확인 방법 정리 (PC의 `ipconfig`로 LAN IP 확인, 방화벽에서 사용할 포트 인바운드 허용) → [README.md](README.md)에 문서화
 
 ## Phase 1 — 시그널링 서버 구현
 1. Node.js + `ws` 라이브러리로 WebSocket 시그널링 서버 구현 (상시 연결 유지 구조로 설계)
@@ -48,4 +59,4 @@
 
 ## 다음 액션
 
-지금 시작할 작업: **Phase 0 → Phase 1 → Phase 2 → Phase 3** 순서로 1단계 프로토타입 구현.
+Phase 0 완료. 지금 시작할 작업: **Phase 1(시그널링 서버 구현) → Phase 2 → Phase 3** 순서로 1단계 프로토타입 구현.
