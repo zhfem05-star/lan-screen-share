@@ -6,12 +6,11 @@
 
 ## 진행 현황 (최종 업데이트: 2026-08-09)
 
-- **완료**: Phase 0 전체
-- **다음 할 일**: Phase 1 (시그널링 서버 구현)
-- **주의 — 아직 커밋 안 됨**: Phase 0 변경사항(`package.json`, `.gitignore`, `/server`, `/public` 등)이 로컬 워킹 디렉터리에만 있고 git에 커밋되지 않은 상태. 다음 세션 시작 시 `git status`로 먼저 확인할 것
-- `server/index.js`는 아직 **빈 스텁**(주석 한 줄)임 — 실제 시그널링 서버 로직은 Phase 1에서 작성 예정
-- `ws` 패키지는 Phase 0 진행 중 미리 설치해둠 (Phase 1 item 1의 라이브러리 설치 부분은 선행 완료된 상태, 코드 구현만 남음)
-- 서버 포트 번호 아직 미정 — Phase 1에서 코드 작성 시 정하고, 그 다음에 README.md에 적어둔 `netsh advfirewall` 방화벽 인바운드 규칙을 해당 포트로 **직접 실행**해야 함 (아직 실행 안 함)
+- **완료**: Phase 0, Phase 1 (둘 다 커밋됨)
+- **다음 할 일**: Phase 2 (PC 송출 페이지)
+- `server/index.js` + `server/signaling.js` + `server/static.js`로 시그널링 서버 구현 완료. 수동 WebSocket 테스트 클라이언트로 sender/viewer 등록, PIN 오검증 거부, offer 중계까지 직접 확인함 (테스트 스크립트는 커밋 안 하고 검증 후 삭제 — 자동화된 테스트 코드는 아직 없음)
+- 서버 포트 기본값 `3000` (환경변수 `PORT`로 변경 가능, 코드에서 결정됨). README에 있는 `netsh advfirewall` 방화벽 인바운드 규칙은 아직 **직접 실행 안 함** — 실제 기기로 접속 테스트할 때(Phase 4) 실행 필요
+- PC 송출 페이지(Phase 2)와 iPad 수신 페이지(Phase 3)는 아직 없음 — `/public`은 빈 디렉터리(`.gitkeep`만 있음). 화면 캡처/`RTCPeerConnection` 관련 로직은 전혀 작성 안 된 상태
 - 개발 환경은 WSL 미사용, **네이티브 Windows**로 진행 결정 (이유: WSL2는 NAT 기반이라 iPad에서 LAN IP로 직접 접속 안 됨 + Phase 2 갈 경우 DXGI API가 애초에 Windows 전용이라 일관성 유지)
 - 이 PC의 LAN IP: `x.x.x.x` (이더넷 어댑터 기준, 확인은 `ipconfig`. VMware 가상 어댑터의 IP는 무시)
 
@@ -20,11 +19,11 @@
 2. [x] 디렉터리 구조 설계: `/server` (시그널링 서버 + 정적 페이지 호스팅), `/public` (PC 송출 페이지, iPad 수신 페이지, 공용 JS)
 3. [x] 로컬 LAN IP 확인 방법 정리 (PC의 `ipconfig`로 LAN IP 확인, 방화벽에서 사용할 포트 인바운드 허용) → [README.md](README.md)에 문서화
 
-## Phase 1 — 시그널링 서버 구현
-1. Node.js + `ws` 라이브러리로 WebSocket 시그널링 서버 구현 (상시 연결 유지 구조로 설계)
-2. PIN 인증 로직 추가: 서버 시작 시 랜덤 4자리 코드 생성 → PC 송출 페이지에 표시 → iPad 접속 시 코드 검증 후에만 시그널링 메시지 중계 허용
-3. SDP offer/answer, ICE candidate 교환 메시지 라우팅 구현 (1:1 세션 기준)
-4. ICE restart 재협상 요청도 같은 채널로 처리 가능하도록 메시지 타입 설계
+## Phase 1 — 시그널링 서버 구현 (완료)
+1. [x] Node.js + `ws` 라이브러리로 WebSocket 시그널링 서버 구현 (상시 연결 유지 구조로 설계) → `server/signaling.js`
+2. [x] PIN 인증 로직 추가: 서버 시작 시 랜덤 4자리 코드 생성 → iPad 접속 시 코드 검증 후에만 시그널링 메시지 중계 허용 → `server/index.js`(생성), `server/signaling.js`(검증). PC 송출 페이지에 PIN을 표시하는 UI는 Phase 2 몫
+3. [x] SDP offer/answer, ICE candidate 교환 메시지 라우팅 구현 (1:1 세션 기준) → `server/signaling.js`
+4. [x] ICE restart 재협상 요청도 같은 채널로 처리 가능하도록 메시지 타입 설계 → 같은 relay 로직으로 처리
 
 ## Phase 2 — PC 송출 페이지 (Chrome)
 1. `getDisplayMedia({ video: true, audio: true })`로 화면+오디오 캡처
@@ -59,4 +58,4 @@
 
 ## 다음 액션
 
-Phase 0 완료. 지금 시작할 작업: **Phase 1(시그널링 서버 구현) → Phase 2 → Phase 3** 순서로 1단계 프로토타입 구현.
+Phase 0, Phase 1 완료. 지금 시작할 작업: **Phase 2(PC 송출 페이지) → Phase 3(iPad 수신 페이지)** 순서로 1단계 프로토타입 구현.
