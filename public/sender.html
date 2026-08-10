@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>화면 송출 (PC)</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: #111;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 40px 16px;
+  }
+  #pin {
+    font-size: 64px;
+    font-weight: bold;
+    letter-spacing: 12px;
+    background: #222;
+    padding: 16px 32px;
+    border-radius: 12px;
+  }
+  #status {
+    font-size: 18px;
+    color: #9cf;
+  }
+  button {
+    font-size: 18px;
+    padding: 12px 24px;
+    cursor: pointer;
+  }
+  video {
+    width: 480px;
+    max-width: 90vw;
+    background: #000;
+    border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+  <h1>PC 화면 송출</h1>
+  <div>iPad에서 이 PIN을 입력하세요</div>
+  <div id="pin">----</div>
+  <button id="shareBtn">화면 공유 시작</button>
+  <div id="status">서버 연결 중...</div>
+  <video id="preview" autoplay muted playsinline></video>
+
+  <script src="/js/sender.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>화면 수신 (iPad)</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: #111;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 16px;
+  }
+  #pinForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  #pinInput {
+    font-size: 32px;
+    letter-spacing: 12px;
+    text-align: center;
+    width: 200px;
+    padding: 8px;
+  }
+  button {
+    font-size: 18px;
+    padding: 12px 24px;
+    cursor: pointer;
+  }
+  #status {
+    font-size: 16px;
+    color: #9cf;
+  }
+  #error {
+    color: #f66;
+    min-height: 20px;
+  }
+  video {
+    width: 100%;
+    max-width: 900px;
+    background: #000;
+    border-radius: 8px;
+    display: none;
+  }
+</style>
+</head>
+<body>
+  <h1>화면 수신</h1>
+
+  <form id="pinForm">
+    <label for="pinInput">PC 화면에 표시된 PIN 입력</label>
+    <input id="pinInput" type="tel" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" />
+    <button type="submit">연결</button>
+  </form>
+
+  <div id="error"></div>
+  <div id="status"></div>
+  <video id="remoteVideo" autoplay playsinline></video>
+
+  <script src="/js/viewer.js"></script>
+</body>
+</html>

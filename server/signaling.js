@@ -32,7 +32,7 @@ function attachSignaling(httpServer, pin) {
         if (message.role === 'sender') {
           sender = socket;
           socket.role = 'sender';
-          send(socket, { type: 'joined', role: 'sender' });
+          send(socket, { type: 'joined', role: 'sender', pin });
         } else if (message.role === 'viewer') {
           if (message.pin !== pin) {
             send(socket, { type: 'join-error', reason: 'invalid-pin' });
